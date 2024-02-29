@@ -1,0 +1,26 @@
+# server request configuration file.
+[ req ]
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+req_extensions		  = v3_req
+
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+stateOrProvinceName             = State or Province Name
+localityName                    = Locality Name
+organizationName                = Organization Name
+organizationalUnitName          = Organizational Unit Name
+commonName                      = Common Name (e.g. server FQDN or YOUR name)
+
+# Optionally, specify some defaults.
+organizationName_default        = VMware
+organizationalUnitName_default  = MAPBU Support
+commonName_default              = localhost
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[ alt_names ]
+IP.1 = 127.0.0.1
