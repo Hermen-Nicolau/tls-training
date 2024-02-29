@@ -31,11 +31,10 @@
 
 ## Your Mission
 
-Explore and understand the TLS protocol, how certificates are organized, and how they are used in VMware Tanzu products. Steps in this page have been verified on OSX.
+Explore and understand the TLS protocol, how certificates are organized, and how they are used in VMware Tanzu products. Steps in this page have been verified on OSX, for Windows we might have to install additional tools. Discuss any additional tools with your facilitator. 
 
-Estimated time: 4 hours.
+Estimated time: 2-4 hours.
 
-If you have questions, please reach out in [#sup-tls-readiness](https://pivotal.slack.com/archives/C0169BSAXQ8).
 
 ### Intel/Helpful Resources
 
@@ -149,7 +148,7 @@ To do this:
 1. Prepare the directory. Please clone this git repository to your workspace and start from the initial directory.
 
     ```bash
-    git clone https://github.com/pivotal-gss/tls-readiness.git
+    git clone https://github.com/Hermen-Nicolau/tls-training
     $ cd tls-readiness/initial
     ```
 
@@ -181,8 +180,8 @@ To do this:
     Country Name (2 letter code) []:
     State or Province Name []:
     Locality Name []:
-    Organization Name [VMware]:
-    Organizational Unit Name [MAPBU Support]:
+    Organization Name [Merck]:
+    Organizational Unit Name [ADP]:
     Common Name []:myCA
     Email Address []:
     ```
@@ -249,8 +248,8 @@ Leaf certificates can be signed by a root CA directly, but we want to introduce 
     Country Name (2 letter code) []:
     State or Province Name (full name) []:
     Locality Name (eg, city) []:
-    Organization Name (eg, company) []:VMware
-    Organization Unit Name (eg, section) []:MAPBU Support
+    Organization Name (eg, company) []:Merck
+    Organization Unit Name (eg, section) []:ADP
     Common Name (e.g. server FQDN or YOUR name) []:myIntermediateCA
     Email Address []:
     ```
@@ -270,8 +269,8 @@ Leaf certificates can be signed by a root CA directly, but we want to introduce 
                 Not Before: Jun 21 09:53:07 2020 GMT
                 Not After : Jun 21 09:53:07 2022 GMT
             Subject:
-                organizationName          = VMware
-                organizationalUnitName    = MAPBU Support
+                organizationName          = Merck
+                organizationalUnitName    = ADP
                 commonName                = myIntermediateCA
             X509v3 extensions:
                 X509v3 Subject Key Identifier:
@@ -345,8 +344,8 @@ With your private root CA and intermediate CA in hand, you can now create & sign
     commonName                      = Common Name (e.g. server FQDN or YOUR name)
 
     # Optionally, specify some defaults.
-    organizationName_default        = VMware
-    organizationalUnitName_default  = MAPBU Support
+    organizationName_default        = Merck
+    organizationalUnitName_default  = ADP
     commonName_default              = localhost
 
     [ v3_req ]
@@ -382,8 +381,8 @@ With your private root CA and intermediate CA in hand, you can now create & sign
     Country Name (2 letter code) []:
     State or Province Name []:
     Locality Name []:
-    Organization Name [VMware]:
-    Organizational Unit Name [MAPBU Support]:
+    Organization Name [Merck]:
+    Organizational Unit Name [ADP]:
     Common Name (e.g. server FQDN or YOUR name) [localhost]:
     ```
 
@@ -931,13 +930,13 @@ Some system apps on TAS access the platform API (api.SYS_DOMAIN), UAA(uaa.SYS_DO
 
 If they are signed by an internal CA or if they are self-signed, then the certificate needs to be added to Bosh's list of trusted certificates.
 
-In our support labs we are using an internal CA and the trust chain looks like this.
+Most corporations use internal CA and the trust chain looks like this.
 
 ```bash
-$ openssl s_client -connect api.run-06.haas-59.pez.pivotal.io:443 | grep "Certificate chain" -A 5
+$ openssl s_client -connect api.<your domain>:443 | grep "Certificate chain" -A 5
 ...
 Certificate chain
-0 s:/C=US/ST=California/L=San Francisco/O=Pivotal Inc/OU=Support/CN=*.run-06.haas-59.pez.pivotal.io
+0 s:/C=US/ST=California/L=San Francisco/O=Pivotal Inc/OU=Support/CN=*.<your domain>
 i:/C=US/ST=California/O=Pivotal Inc/OU=Support/CN=Pivotal Support Lab #06
 1 s:/C=US/ST=California/O=Pivotal Inc/OU=Support/CN=Pivotal Support Lab #06
 i:/C=US/ST=California/L=San Francisco/O=Pivotal Inc/OU=Support/CN=Pivotal Support Labs Root CA/emailAddress=gss-labs@pivotal.io
@@ -945,7 +944,7 @@ i:/C=US/ST=California/L=San Francisco/O=Pivotal Inc/OU=Support/CN=Pivotal Suppor
 
 - Root CA: `Pivotal Support Labs Root CA`
 - Intermediate CA: `Pivotal Support Lab #06`
-- Leaf Certificate: `*.run-06.haas-59.pez.pivotal.io`
+- Leaf Certificate: `*.<your domain>`
 
 `Pivotal Support Labs Root CA` is not public CA, so in order to trust the CA the root CA should be added to `Ops Manager > Director > Settings > Security > Trusted Certificates`. BOSH and Garden will take care of deploying the root CA and any other Bosh trusted certs into every VM and container's default certificate bundle (i.e.`/etc/ssl/certs/ca-certificates.crt`). Note that for your laptop to trust our labs, you must add the Pivotal Support Labs Root CA to the trust store (KeyChain on Mac) of your laptop.
 
@@ -1031,6 +1030,7 @@ Like what you’re learning? Interested to learn more? Here are some additional 
 ### Books
 
 - [Bulletproof SSL and TLS](https://www.amazon.com/Bulletproof-SSL-TLS-Understanding-Applications/dp/1907117040)
+- [What is SSL/TLS Certificate? - SSL/TLS Certificates Explained - AWS](https://aws.amazon.com/what-is/ssl-certificate/)
 
 ### Projects
 
