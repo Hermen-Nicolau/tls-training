@@ -149,7 +149,7 @@ To do this:
 
     ```bash
     git clone https://github.com/Hermen-Nicolau/tls-training
-    $ cd tls-readiness/initial
+    $ cd tls-training/initial
     ```
 
 2. Create a private key for root CA.
