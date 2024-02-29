@@ -64,8 +64,8 @@ commonName                      = Common Name
 emailAddress                    = Email Address
 
 # Optionally, specify some defaults.
-organizationName_default        = VMware 
-organizationalUnitName_default  = MAPBU Support
+organizationName_default        = Merck 
+organizationalUnitName_default  = ADP
 commonName_default              = myRootCA
 
 [ v3_ca ]
